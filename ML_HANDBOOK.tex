@@ -1,0 +1,873 @@
+\documentclass[11pt, letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{fontawesome}
+\usepackage{fancyhdr}
+
+\geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+ right=20mm,
+ bottom=20mm,
+ }
+
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[L]{\textbf{Machine Learning Exam Handbook}}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.0pt}
+
+\setlength{\parindent}{0pt}
+\setlist{nosep} % Compact lists
+
+\newcommand{\concept}[1]{\noindent\textbf{\Large #1}\par}
+\newcommand{\subconcept}[1]{\noindent\textbf{\large #1}\par}
+\newcommand{\keyformula}[1]{\begin{center}\fcolorbox{black}{yellow!20}{\parbox{\linewidth}{\centering\textbf{Key Formula:} $#1$}}\end{center}}
+\newcommand{\examtip}[1]{\begin{itemize}[label=\textcolor{red}{\faStar}]
+    \item \textit{\textbf{Exam Tip:}} #1
+\end{itemize}}
+
+\begin{document}
+\setcounter{page}{1}
+
+\begin{center}
+    \vspace*{1cm}
+    \Huge \textbf{The Ultimate Machine Learning Exam Handbook} \\
+    \vspace{0.5cm}
+    \Large \textit{Concise, Structured, and Exam-Ready Revision Notes} \\
+    \vspace{1cm}
+\end{center}
+
+\newpage
+
+% --------------------------------------------------------------------------------
+% SECTION 1: CORE CONCEPTS (Page 2-7)
+% --------------------------------------------------------------------------------
+
+\section{Core Concepts: The Foundations}
+\label{sec:core_concepts}
+\setcounter{section}{1}
+
+\concept{Inductive Bias $\faLightbulb$}
+\begin{itemize}
+    [cite_start]\item \textbf{Definition:} The set of assumptions a machine learning algorithm makes to \textbf{generalize from limited data}[cite: 1].
+    [cite_start]\item \textbf{Function:} Guides the learning process by \textbf{narrowing down} the possible solutions to those more likely to be correct based on the model's assumptions[cite: 3].
+    [cite_start]\item \textbf{Goal:} Helps the model make predictions on new, unseen data, aiming for the bias to align with the true patterns[cite: 2, 5].
+    \item \textbf{Types:}
+    \begin{itemize}
+        [cite_start]\item \textbf{Strong Bias:} Model makes stronger, more restrictive assumptions (e.g., assuming a linear relationship)[cite: 11]. Risk of \textbf{Underfitting}.
+        [cite_start]\item \textbf{Weak Bias:} Model is more flexible, allowing complex solutions[cite: 12]. Risk of \textbf{Overfitting}.
+    \end{itemize}
+    [cite_start]\item \textbf{Example:} Assuming people of similar age have similar buying habits to predict future behavior based on limited data[cite: 6, 7].
+\end{itemize}
+
+---
+
+\concept{Hypothesis Space $\faCogs$}
+\begin{itemize}
+    [cite_start]\item \textbf{Definition:} The \textbf{set of all possible models or solutions} that an algorithm can choose from to explain the data[cite: 16].
+    [cite_start]\item \textbf{Goal:} To find the \textbf{best hypothesis (model)} from this space that fits the data well and generalizes to new data[cite: 17, 23].
+    \item \textbf{Size Matters:}
+    \begin{itemize}
+        [cite_start]\item \textbf{Too Large:} Learning is difficult due to too many possibilities (e.g., Deep Neural Networks)[cite: 19, 22].
+        [cite_start]\item \textbf{Too Small:} Model may not capture the complexity of the data, leading to poor performance (e.g., Simple Linear Regression)[cite: 20, 22].
+    \end{itemize}
+    \item \textbf{Relationship to Bias:}
+    \begin{itemize}
+        [cite_start]\item \textbf{Strong Bias:} \textbf{Restricts} the hypothesis space to simpler solutions[cite: 25].
+        [cite_start]\item \textbf{Weak Bias:} \textbf{Allows} more complex solutions, resulting in a larger space[cite: 25].
+    \end{itemize}
+    \item \textbf{Example:}
+    \begin{itemize}
+        [cite_start]\item \textbf{Linear Regression:} Hypothesis space contains \textbf{all possible straight lines}[cite: 18].
+        [cite_start]\item \textbf{Decision Trees:} Hypothesis space contains \textbf{all possible tree structures}[cite: 18].
+    \end{itemize}
+\end{itemize}
+
+---
+
+\concept{Cross-Validation $\faExchange$}
+\begin{itemize}
+    [cite_start]\item \textbf{Definition:} A \textbf{resampling technique} used to estimate how well a model will \textbf{perform on independent, unseen data}[cite: 29, 30].
+    \item \textbf{Purpose:}
+    \begin{itemize}
+        [cite_start]\item \textbf{Evaluation:} Evaluates model performance and reliability[cite: 29].
+        [cite_start]\item \textbf{Overfitting Prevention:} Ensures the model performs well on both training and new data, making it more robust and preventing overfitting[cite: 31, 32].
+    \end{itemize}
+\end{itemize}
+
+\subconcept{K-Fold Cross-Validation}
+\begin{itemize}
+    [cite_start]\item \textbf{Process:} Dataset is divided into \textbf{K equal-sized subsets (folds)}[cite: 34]. [cite_start]The model is trained \textbf{K times}, each time using $K-1$ folds for training and the remaining fold for testing[cite: 35].
+    [cite_start]\item \textbf{Advantage:} More reliable evaluation; reduces overfitting[cite: 36].
+    [cite_start]\item \textbf{Disadvantage:} Computationally intensive[cite: 36].
+\end{itemize}
+
+\subconcept{Leave-One-Out Cross-Validation (LOOCV)}
+\begin{itemize}
+    \item \textbf{Process:} The model is trained on \textbf{all but one data point} and tested on that single omitted point. [cite_start]This is repeated for every data point[cite: 41, 42]. This is equivalent to K-Fold where $K=N$ (number of data points).
+    [cite_start]\item \textbf{Advantage:} Low bias (uses almost all data for training)[cite: 43].
+    [cite_start]\item \textbf{Disadvantages:} High variance (testing on a single data point can be sensitive to outliers)[cite: 44]; [cite_start]Computationally expensive (trains the model $N$ times for $N$ data points)[cite: 46].
+\end{itemize}
+
+---
+
+\concept{Bayesian Method $\faBalanceScale$}
+\begin{itemize}
+    [cite_start]\item \textbf{Core Idea:} Based on \textbf{Bayes' Theorem}, which describes the probability of an event based on \textbf{prior knowledge} of conditions related to the event[cite: 55].
+    [cite_start]\item \textbf{Function in ML:} Involves \textbf{updating the probability estimate} for a hypothesis as more evidence or data becomes available[cite: 56].
+\end{itemize}
+
+\subconcept{Bayes' Theorem Formula}
+\keyformula{P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}}
+\begin{itemize}
+    [cite_start]\item $P(A|B)$: \textbf{Posterior} - Probability of event A occurring given B is true (the updated belief)[cite: 58, 62].
+    [cite_start]\item $P(A)$: \textbf{Prior} - Initial belief about the probability of event A[cite: 60].
+    [cite_start]\item $P(B|A)$: \textbf{Likelihood} - Probability of observing the new evidence B under the assumption A is true[cite: 61].
+    \item $P(B)$: \textbf{Evidence} - Probability of observing the new evidence B.
+\end{itemize}
+
+\examtip{In machine learning, $A$ is typically the Hypothesis and $B$ is the Data/Evidence.}
+
+\subconcept{Solved Numerical Example: Medical Diagnosis}
+\textbf{Scenario:} Out of 2000 people, 10 have a disease ($P(D)$). The test correctly identifies 8 out of 10 people with the disease ($P(Pos|D)$) and incorrectly identifies 1 out of 50 people without the disease as positive ($P(Pos|No D)$). [cite_start]If someone tests positive, what is $P(D|Pos)$? [cite: 79, 80, 81]
+
+\begin{enumerate}
+    \item \textbf{Prior Probabilities:}
+    \begin{itemize}
+        [cite_start]\item $P(D) = \frac{10}{2000} = 0.005$ [cite: 79]
+        \item $P(No D) = 1 - 0.005 = 0.995$
+    \end{itemize}
+    \item \textbf{Likelihoods:}
+    \begin{itemize}
+        [cite_start]\item $P(Pos|D) = \frac{8}{10} = 0.8$ (True Positive Rate) [cite: 80]
+        [cite_start]\item $P(Pos|No D) = \frac{1}{50} = \frac{40}{1990} \approx 0.0201$ (False Positive Rate - Note: $1990=2000-10$) [cite: 80, 82]
+    \end{itemize}
+    \item \textbf{Evidence ($P(Pos)$):}
+    \keyformula{P(Pos) = P(Pos|D) \cdot P(D) + P(Pos|No D) \cdot P(No D)}
+    [cite_start]$P(Pos) = (0.8 \cdot 0.005) + (0.0201 \cdot 0.995) \approx 0.004 + 0.0200 = 0.024$ [cite: 82]
+    \item \textbf{Posterior ($P(D|Pos)$):}
+    \keyformula{P(D|Pos) = \frac{P(Pos|D) \cdot P(D)}{P(Pos)}}
+    [cite_start]$P(D|Pos) = \frac{0.8 \cdot 0.005}{0.024} \approx 0.167$ [cite: 82]
+\end{enumerate}
+[cite_start]\textbf{Answer:} The probability a person actually has the disease if they test positive is $\approx \mathbf{16.7\%}$[cite: 83].
+
+\newpage
+
+% --------------------------------------------------------------------------------
+% SECTION 2: SUPERVISED LEARNING (Page 8-14)
+% --------------------------------------------------------------------------------
+
+\section{Supervised Learning: The Labelled World}
+\label{sec:supervised_learning}
+\setcounter{section}{2}
+
+\concept{Supervised Learning Overview $\faGraduationCap$}
+\begin{itemize}
+    [cite_start]\item \textbf{Definition:} Training a machine using \textbf{labeled data} (input examples with the correct answer/classification)[cite: 93, 94].
+    [cite_start]\item \textbf{Process:} The model learns the relationship between inputs and desired outputs, then makes predictions on new, unlabeled data[cite: 95, 96].
+    \item \textbf{Types:}
+    \begin{enumerate}
+        [cite_start]\item \textbf{Regression:} Output variable is a \textbf{real or continuous value} (e.g., price, weight)[cite: 97, 100].
+        [cite_start]\item \textbf{Classification:} Output variable is a \textbf{category or discrete value} (e.g., Red/Blue, Spam/Not Spam, Disease/No Disease)[cite: 98, 99, 103].
+    \end{enumerate}
+\end{itemize}
+
+---
+
+\concept{Regression Algorithms}
+\subconcept{Linear Regression (Simple and Multiple) $\faChartLine$}
+\begin{itemize}
+    [cite_start]\item \textbf{Goal:} Models the relationship between a dependent variable ($Y$) and one or more independent variables ($X$) as a \textbf{straight line}[cite: 288, 295].
+    [cite_start]\item \textbf{Simple Linear Regression (SLR):} Involves \textbf{one} independent variable ($X$)[cite: 288].
+    \keyformula{Y = C + mX}
+    [cite_start]\item \textbf{Multiple Linear Regression (MLR):} Involves \textbf{more than one} independent variable ($X_1, X_2, \dots$)[cite: 295].
+    \keyformula{Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_n X_n}
+    [cite_start]\item \textbf{Pros:} Simple to implement, efficient to train, can use regularization to prevent overfitting[cite: 286].
+    [cite_start]\item \textbf{Cons:} Sensitive to outliers; assumes data is linearly separable and variables are independent[cite: 286].
+    [cite_start]\item \textbf{Example:} Predicting house price based on size (SLR) or based on size, bedrooms, and age (MLR)[cite: 300].
+\end{itemize}
+
+\subconcept{Polynomial Regression $\faBezierCurve$}
+\begin{itemize}
+    [cite_start]\item \textbf{Goal:} Models the relationship as an \textbf{$n^{th}$ degree polynomial} when the relationship is \textbf{non-linear}[cite: 337, 345].
+    [cite_start]\item \textbf{Nature:} It is considered a \textbf{special case of Multiple Linear Regression} where polynomial terms ($x^2, x^3, \dots$) are added as new features[cite: 341, 343].
+    \keyformula{y = b_0 + b_1 x_1 + b_2 x_1^2 + b_3 x_1^3 + \dots + b_n x_1^n}
+    [cite_start]\item \textbf{Benefit:} Can fit complex functions and non-linear datasets better than simple linear models[cite: 346, 350].
+\end{itemize}
+
+\subconcept{Solved Numerical Example: Simple Linear Regression}
+\textbf{Data:}
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{X} & 2 & 4 & 6 & 8 & $\sum X=20$ & $n=4$ & $\sum X^2=120$ & $\sum XY=144$ \\ \hline
+\textbf{Y} & 3 & 7 & 5 & 10 & $\sum Y=25$ & & & \\ \hline
+\end{tabular}
+\end{center}
+\textbf{Formulas for Slope ($b$) and Intercept ($a$):}
+\keyformula{b = \frac{n\sum XY - (\sum X)(\sum Y)}{n\sum X^2 - (\sum X)^2} \quad a = \frac{\sum Y \sum X^2 - \sum X \sum XY}{n\sum X^2 - (\sum X)^2}}
+\begin{itemize}
+    \item \textbf{Calculate $b$ (slope):}
+    $$b = \frac{4 \cdot 144 - 20 \cdot 25}{4 \cdot 120 - 20^2} = \frac{576 - 500}{480 - 400} = \frac{76}{80} = 0.95$$
+    \item \textbf{Calculate $a$ (intercept):}
+    $$a = \frac{25 \cdot 120 - 20 \cdot 144}{4 \cdot 120 - 20^2} = \frac{3000 - 2880}{80} = \frac{120}{80} = 1.5$$
+\end{itemize}
+[cite_start]\textbf{Linear Regression Equation:} $y = a + bx \implies \mathbf{y = 1.5 + 0.95x}$[cite: 308].
+
+---
+
+\concept{Classification Algorithms}
+\subconcept{Logistic Regression $\faChartBar$}
+\begin{itemize}
+    [cite_start]\item \textbf{Nature:} A Supervised Learning algorithm primarily for \textbf{Classification}[cite: 314].
+    [cite_start]\item \textbf{Output:} Predicts the probability of a categorical dependent variable (e.g., $0$ or $1$, True or False) that lies between 0 and 1[cite: 315, 316].
+    [cite_start]\item \textbf{Key Component: Sigmoid Function} ($S$-shaped curve)[cite: 317, 320]. This function maps any real value into a probability between 0 and 1.
+    [cite_start]\keyformula{P = \frac{1}{1 + e^{-Z}}} where $Z = \text{log(odds)}$[cite: 335].
+    \item \textbf{Types:}
+    \begin{itemize}
+        [cite_start]\item \textbf{Binomial:} Two possible dependent variable outcomes (e.g., Yes/No, Pass/Fail)[cite: 326].
+        [cite_start]\item \textbf{Multinomial:} Three or more possible \textbf{unordered} outcomes (e.g., "cat", "dog", "sheep")[cite: 327].
+        [cite_start]\item \textbf{Ordinal:} Three or more possible \textbf{ordered} outcomes (e.g., "low", "medium", "high")[cite: 327].
+    \end{itemize}
+    [cite_start]\item \textbf{Assumptions:} Binary dependent variable; independent observations; linear relationship between independent variables and \textbf{log odds}[cite: 323, 324, 325].
+    \item \textbf{Example:} Predicting whether a customer will click on an ad (Click/No Click) based on features.
+\end{itemize}
+
+\subconcept{K-Nearest Neighbour (K-NN) $\faUsers$}
+\begin{itemize}
+    [cite_start]\item \textbf{Nature:} Simple, Supervised, \textbf{Non-parametric}, and \textbf{Lazy Learner} algorithm[cite: 352, 356, 357].
+    [cite_start]\item \textbf{Goal:} Classifies a new data point based on the \textbf{majority vote} of its \textbf{K nearest neighbors} (for classification) or the \textbf{average} (for regression)[cite: 353, 383, 377].
+    [cite_start]\item \textbf{Core Step:} Distance Calculation, typically using \textbf{Euclidean Distance}[cite: 361, 376].
+    \keyformula{\text{Distance} = \sqrt{(X_2 - X_1)^2 + (Y_2 - Y_1)^2}}
+    \item \textbf{K Value Sensitivity:}
+    \begin{itemize}
+        [cite_start]\item \textbf{Small $K$:} High variance, prone to \textbf{overfitting} (captures noise)[cite: 372].
+        [cite_start]\item \textbf{Large $K$:} High bias, prone to \textbf{underfitting} (smoother decision boundary)[cite: 369].
+    \end{itemize}
+    [cite_start]\item \textbf{Requirement:} Features \textbf{must be scaled} since it is a distance-based algorithm[cite: 380].
+\end{itemize}
+
+\subconcept{Decision Tree $\faCodeBranch$}
+\begin{itemize}
+    [cite_start]\item \textbf{Nature:} Supervised technique for both Classification and Regression[cite: 392].
+    [cite_start]\item \textbf{Structure:} \textbf{Tree-structured classifier} with Internal Nodes (features/decisions), Branches (rules), and Leaf Nodes (final outcomes/predictions)[cite: 393, 394].
+    [cite_start]\item \textbf{Process:} Recursively splits the tree based on a \textbf{Decision Criterion} (rule) to create subtrees (using the \textbf{CART} algorithm)[cite: 398, 406].
+    \item \textbf{Decision Criteria:}
+    \begin{itemize}
+        \item \textbf{Information Gain:} Measures the change in entropy after splitting a node based on an attribute. [cite_start]The goal is to \textbf{maximize} Information Gain[cite: 407, 410].
+        \keyformula{\text{Information Gain} = \text{Entropy}(S) - [(\text{Weighted Avg}) \cdot \text{Entropy}(\text{each feature})]}
+        \item \textbf{Gini Index:} Measures impurity or purity. [cite_start]The goal is to \textbf{minimize} the Gini Index[cite: 413, 414]. [cite_start]Used by the CART algorithm for binary splits[cite: 415].
+        \keyformula{\text{Gini} = 1 - \sum_{i=1}^{C} (p_i)^2}
+    \end{itemize}
+    [cite_start]\item \textbf{Pros:} Simple to understand; useful for decision-related problems; less data cleaning required[cite: 417, 421].
+    [cite_start]\item \textbf{Cons:} Prone to \textbf{overfitting} (can be resolved with Random Forest); complexity increases with more class labels[cite: 422, 423].
+\end{itemize}
+
+\subconcept{Naïve Bayes Classifier $\faDice$}
+\begin{itemize}
+    [cite_start]\item \textbf{Nature:} Probabilistic ML model based on \textbf{Bayes' Theorem}, primarily used for classification[cite: 457].
+    [cite_start]\item \textbf{Core Assumption (Naïve):} Assumes \textbf{all features are independent} of each other, given the class label (which is often untrue in real life)[cite: 458, 461].
+    [cite_start]\item \textbf{Goal:} Predicts the class with the \textbf{highest posterior probability}[cite: 503].
+    \item \textbf{Types (Choose based on data):}
+    \begin{itemize}
+        [cite_start]\item \textbf{Gaussian:} Continuous features assumed to follow a \textbf{Normal Distribution}[cite: 470, 471].
+        [cite_start]\item \textbf{Multinomial:} Best for \textbf{discrete count data} (e.g., word frequencies in text)[cite: 474].
+        [cite_start]\item \textbf{Bernoulli:} Suitable for \textbf{binary/boolean features} (presence/absence of a word)[cite: 476, 477].
+    \end{itemize}
+    [cite_start]\item \textbf{Pros:} Fast and easy; performs well in multi-class prediction; good with categorical inputs[cite: 486, 488].
+    [cite_start]\item \textbf{Cons:} Strong independence assumption rarely holds; suffers from \textbf{Zero Frequency Problem} (feature in test data but not in train data)[cite: 461, 489].
+    [cite_start]\item \textbf{Example:} \textbf{Spam Filtering} (Multinomial is common)[cite: 467, 475].
+\end{itemize}
+
+\subconcept{Support Vector Machine (SVM) $\faDivide$}
+\begin{itemize}
+    [cite_start]\item \textbf{Nature:} Supervised ML algorithm primarily for \textbf{Classification}[cite: 512].
+    [cite_start]\item \textbf{Core Idea:} Finds the \textbf{optimal boundary (hyperplane)} that best separates data points of different classes in a high-dimensional space[cite: 513].
+    [cite_start]\item \textbf{Support Vectors:} The data points closest to the hyperplane; these points \textbf{define the margin} and the hyperplane itself[cite: 517].
+    \item \textbf{Margins:}
+    \begin{itemize}
+        \item \textbf{Hard Margin:} Perfectly separates data without misclassifications. [cite_start]Used only when data is perfectly separable[cite: 515].
+        [cite_start]\item \textbf{Soft Margin:} Allows some misclassifications by introducing a \textbf{slack variable} to handle outliers and non-perfectly separable data[cite: 516].
+    \end{itemize}
+    [cite_start]\item \textbf{The Kernel Trick:} A technique that transforms low-dimensional, non-separable input space into a \textbf{higher dimensional space} where the data \textbf{becomes linearly separable}[cite: 520, 521].
+    [cite_start]\item \textbf{Common Kernels:} Linear, Polynomial, \textbf{Radial Basis Function (RBF)} (or Gaussian)[cite: 522].
+    [cite_start]\item \textbf{Pros:} Excels in high-dimensional spaces; effective for nonlinear data (with kernels); resilient to outliers (soft margin); memory efficient (uses only support vectors)[cite: 528, 529, 530, 532].
+    [cite_start]\item \textbf{Cons:} Slow for large datasets; highly sensitive to parameter tuning and feature scaling[cite: 533, 534, 537].
+\end{itemize}
+
+---
+
+\concept{Supervised Learning Evaluation Metrics $\faTachometerAlt$}
+\subconcept{Regression Metrics}
+\begin{itemize}
+    \item \textbf{Mean Squared Error (MSE):} Average \textbf{squared difference} between predicted and actual values. Penalizes large errors heavily. [cite_start]\textbf{Lower is better}[cite: 105].
+    \item \textbf{Root Mean Squared Error (RMSE):} Square root of MSE. Represents the standard deviation of prediction errors. [cite_start]\textbf{Lower is better}[cite: 107].
+    \item \textbf{Mean Absolute Error (MAE):} Average \textbf{absolute difference}. Less sensitive to outliers than MSE/RMSE. [cite_start]\textbf{Lower is better}[cite: 109].
+    \item \textbf{R-squared ($R^2$):} Measures the \textbf{proportion of variance} in the target explained by the model. [cite_start]\textbf{Higher is better} (closer to 1.0)[cite: 110].
+\end{itemize}
+
+\subconcept{Classification Metrics (via Confusion Matrix)}
+\begin{itemize}
+    [cite_start]\item \textbf{Confusion Matrix:} A performance measurement tool visualizing \textbf{actual vs. predicted} classifications (True Positive, True Negative, False Positive, False Negative)[cite: 130, 131].
+    [cite_start]\item \textbf{True Positive (TP):} Model predicted Yes, actual was Yes[cite: 137].
+    [cite_start]\item \textbf{True Negative (TN):} Model predicted No, actual was No[cite: 135].
+    [cite_start]\item \textbf{False Positive (FP):} Model predicted Yes, actual was No (Type-I error)[cite: 139].
+    [cite_start]\item \textbf{False Negative (FN):} Model predicted No, actual was Yes (Type-II error)[cite: 138].
+    [cite_start]\item \textbf{Accuracy:} Ratio of total correct instances to total instances[cite: 144, 145].
+    \keyformula{\text{Accuracy} = \frac{TP + TN}{TP + FP + FN + TN}}
+    [cite_start]\item \textbf{Precision:} Accuracy of positive predictions ($\%$ of positive predictions that are correct)[cite: 112, 146].
+    \keyformula{\text{Precision} = \frac{TP}{TP + FP}}
+    [cite_start]\item \textbf{Recall (Sensitivity):} Percentage of all positive examples correctly identified[cite: 114, 148].
+    \keyformula{\text{Recall} = \frac{TP}{TP + FN}}
+    \item \textbf{F1 Score:} \textbf{Harmonic mean} of Precision and Recall. [cite_start]Evaluates overall performance, especially useful for imbalanced datasets[cite: 116, 149].
+    \keyformula{\text{F1-Score} = \frac{2 \cdot \text{Recall} \cdot \text{Precision}}{\text{Recall} + \text{Precision}}}
+\end{itemize}
+
+\subconcept{Solved Numerical Example: Confusion Matrix}
+\textbf{Data (Dog Image Recognition):}
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Actual \textbackslash Predicted} & \textbf{Dog (Positive)} & \textbf{Not Dog (Negative)} \\ \hline
+\textbf{Dog (Positive)} & TP=5 & FN=1 \\ \hline
+\textbf{Not Dog (Negative)} & FP=1 & TN=3 \\ \hline
+\end{tabular}
+\end{center}
+Total samples $N = 5+1+1+3 = 10$.
+\begin{enumerate}
+    \item \textbf{Accuracy:}
+    $$\text{Accuracy} = \frac{5 + 3}{10} = 0.8 \quad (\mathbf{80\%})$$
+    \item \textbf{Precision:}
+    $$\text{Precision} = \frac{5}{5 + 1} = \frac{5}{6} \approx 0.833 \quad (\mathbf{83.3\%})$$
+    \item \textbf{Recall:}
+    $$\text{Recall} = \frac{5}{5 + 1} = \frac{5}{6} \approx 0.833 \quad (\mathbf{83.3\%})$$
+    \item \textbf{F1-Score:}
+    $$\text{F1-Score} = \frac{2 \cdot 0.833 \cdot 0.833}{0.833 + 0.833} = 0.833 \quad (\mathbf{83.3\%})$$
+\end{enumerate}
+
+\newpage
+
+% --------------------------------------------------------------------------------
+% SECTION 3: UNSUPERVISED LEARNING (Page 15-20)
+% --------------------------------------------------------------------------------
+
+\section{Unsupervised Learning: The Unlabeled World}
+\label{sec:unsupervised_learning}
+\setcounter{section}{3}
+
+\concept{Unsupervised Learning Overview $\faWrench$}
+\begin{itemize}
+    [cite_start]\item \textbf{Definition:} Allows the model to discover \textbf{patterns and relationships in unlabeled data}[cite: 119].
+    [cite_start]\item \textbf{Goal:} To draw inferences and find hidden structure from data without prior knowledge of labels[cite: 120].
+    \item \textbf{Main Tasks:}
+    \begin{enumerate}
+        [cite_start]\item \textbf{Clustering:} Grouping similar data points based on inherent characteristics[cite: 120, 124].
+        [cite_start]\item \textbf{Dimensionality Reduction:} Reducing the number of features while retaining information[cite: 272].
+        [cite_start]\item \textbf{Association:} Finding rules that describe relationships between data (not detailed in source, focus on Clustering/DR)[cite: 128].
+    \end{enumerate}
+\end{itemize}
+
+---
+
+\concept{Clustering Algorithms}
+\subconcept{K-Means Clustering $\faDotCircle$}
+\begin{itemize}
+    [cite_start]\item \textbf{Nature:} Partitional clustering algorithm that partitions $N$ observations into \textbf{$K$ clusters}[cite: 541]. [cite_start]Requires a \textbf{predefined $K$}[cite: 561].
+    \item \textbf{Working Steps:}
+    \begin{enumerate}
+        [cite_start]\item \textbf{Select $K$:} Choose the desired number of clusters[cite: 541].
+        [cite_start]\item \textbf{Initialize Centroids:} Select $K$ random points as initial cluster centers (centroids)[cite: 542].
+        [cite_start]\item \textbf{Assignment:} Assign each data point to its \textbf{closest centroid} (forming $K$ clusters)[cite: 544].
+        [cite_start]\item \textbf{Update:} Calculate the \textbf{new centroid} of each cluster by taking the mean of all points in that cluster[cite: 545].
+        [cite_start]\item \textbf{Iterate:} Repeat assignment and update steps until the centroids \textbf{stabilize} (no reassignment occurs)[cite: 546, 547].
+    \end{enumerate}
+    [cite_start]\item \textbf{Distance Metric:} Typically uses Euclidean distance for closeness[cite: 544].
+    [cite_start]\item \textbf{Example (Case Study): Customer Segmentation:} A gym segments members into two groups ($K=2$) based on \textbf{Weekly Workout Duration} and \textbf{Weekly Calories Burned} to offer tailored programs (e.g., low-activity vs. high-activity groups)[cite: 549, 551, 552].
+\end{itemize}
+
+\subconcept{Hierarchical Clustering $\faSitemap$}
+\begin{itemize}
+    [cite_start]\item \textbf{Nature:} Groups data into a \textbf{hierarchy of clusters}, often visualized as a \textbf{tree or dendrogram}[cite: 559, 560]. [cite_start]Does \textbf{not} require a predefined number of clusters upfront[cite: 561].
+    [cite_start]\item \textbf{Dendrogram:} A tree structure showing the hierarchy of clusters; the number of clusters is chosen by \textbf{cutting the dendrogram} at a specific height[cite: 562].
+    \item \textbf{Types:}
+    \begin{itemize}
+        [cite_start]\item \textbf{Agglomerative (Bottom-Up):} Starts with \textbf{each data point as a single cluster} and iteratively \textbf{merges} the two closest clusters until one cluster remains[cite: 563, 564, 567].
+        [cite_start]\item \textbf{Divisive (Top-Down):} Starts with \textbf{all data in one cluster} and iteratively \textbf{splits} the cluster into smaller groups[cite: 568, 569, 571].
+    \end{itemize}
+    \item \textbf{Linkage Methods (Measures distance between clusters):}
+    \begin{itemize}
+        [cite_start]\item \textbf{Single Linkage:} Shortest distance between the closest points of the clusters[cite: 574].
+        [cite_start]\item \textbf{Complete Linkage:} Farthest distance between two points (forms tighter clusters)[cite: 576].
+        [cite_start]\item \textbf{Average Linkage:} Average distance between every pair of data points in the clusters[cite: 578].
+        [cite_start]\item \textbf{Centroid Linkage:} Distance between the centroids of the clusters[cite: 579].
+    \end{itemize}
+\end{itemize}
+
+---
+
+\concept{Dimensionality Reduction $\faCompress$}
+\begin{itemize}
+    [cite_start]\item \textbf{Definition:} A key preprocessing step to \textbf{reduce the number of features} (variables) in a dataset while retaining as much essential information as possible[cite: 272, 281].
+    \item \textbf{Need/Benefits:}
+    \begin{itemize}
+        [cite_start]\item \textbf{Reduces Overfitting:} Simplifies the model and removes noise, leading to better generalization[cite: 274, 277].
+        [cite_start]\item \textbf{Improves Performance:} Reduces training time and model complexity[cite: 278].
+        [cite_start]\item \textbf{Mitigates Curse of Dimensionality:} Addresses issues in high-dimensional space (sparsity, less meaningful distances)[cite: 279].
+        [cite_start]\item \textbf{Easier Visualization:} Allows plotting of high-dimensional data in 2D/3D[cite: 279, 608].
+    \end{itemize}
+    [cite_start]\item \textbf{Core Techniques:} Feature Selection and \textbf{Feature Extraction}[cite: 285].
+\end{itemize}
+
+\subconcept{Principal Component Analysis (PCA) $\faChartArea$}
+\begin{itemize}
+    [cite_start]\item \textbf{Nature:} Unsupervised Feature Extraction technique for Dimensionality Reduction[cite: 580, 581].
+    \item \textbf{Goal:} Creates new, uncorrelated features (\textbf{Principal Components - PCs}) by combining or transforming the original features. [cite_start]These PCs capture the \textbf{maximum variance} (information) in the data[cite: 581, 591].
+    \item \textbf{Key Concepts:}
+    \begin{itemize}
+        [cite_start]\item \textbf{Variance/Covariance:} Used to measure the spread of data and the dependency between features[cite: 584, 585].
+        [cite_start]\item \textbf{Eigenvectors:} Directions of maximum variance/spread; the first PC is the eigenvector corresponding to the largest eigenvalue[cite: 586, 587, 591].
+        [cite_start]\item \textbf{Orthogonality:} PCs are perpendicular (independent) to each other[cite: 591, 583].
+    \end{itemize}
+    [cite_start]\item \textbf{Working Steps (Simplified):} Normalize data $\to$ Calculate Covariance Matrix $\to$ Calculate Eigenvalues/Eigenvectors $\to$ Select Principal Components $\to$ Transform Data[cite: 594].
+    [cite_start]\item \textbf{Use Cases:} Image compression/resizing; discovering patterns from high-dimensional data[cite: 608].
+\end{itemize}
+
+---
+
+\concept{Curse of Dimensionality $\faArrowsAlt$}
+\begin{itemize}
+    [cite_start]\item \textbf{Definition:} A set of problems that arise when working with \textbf{high-dimensional data} (large number of features)[cite: 595].
+    \item \textbf{Impacts:}
+    \begin{itemize}
+        [cite_start]\item \textbf{Data Sparsity:} Data points become extremely spread out, making it hard to find statistically significant relationships or patterns[cite: 595].
+        [cite_start]\item \textbf{Computational Complexity:} Algorithms take exponentially longer to train[cite: 596].
+        [cite_start]\item \textbf{Overfitting:} Models are more likely to memorize training data due to the vast space and sparse points[cite: 597].
+        [cite_start]\item \textbf{Distance Distortion:} Traditional distance metrics (like Euclidean) become less meaningful[cite: 279, 598].
+    \end{itemize}
+    [cite_start]\item \textbf{Solution:} Dimensionality Reduction techniques like \textbf{PCA} are crucial to overcome this curse[cite: 279, 599].
+\end{itemize}
+
+\newpage
+
+% --------------------------------------------------------------------------------
+% SECTION 4: DATA PREPROCESSING (Page 21-26)
+% --------------------------------------------------------------------------------
+
+\section{Data Preprocessing: Preparing the Data}
+\label{sec:data_preprocessing}
+\setcounter{section}{4}
+
+\concept{Missing Value Imputation $\faEraser$}
+\begin{itemize}
+    [cite_start]\item \textbf{Definition:} Replacing missing values in datasets with substituted values to ensure consistent data analysis and use algorithms that require complete datasets[cite: 159, 160].
+\end{itemize}
+
+\subconcept{Common Statistical Imputation}
+\begin{itemize}
+    [cite_start]\item \textbf{Mean Imputation:} Replacing missing values with the \textbf{arithmetic average} (mean)[cite: 161, 165].
+    \begin{itemize}
+        [cite_start]\item \textbf{Best for:} Symmetrically distributed numerical data with no outliers[cite: 164].
+        [cite_start]\item \textbf{Con:} Reduces data variability, potentially underestimating variance[cite: 166].
+    \end{itemize}
+    [cite_start]\item \textbf{Median Imputation:} Replacing missing values with the \textbf{middle value} (median)[cite: 161, 169].
+    \begin{itemize}
+        [cite_start]\item \textbf{Best for:} Skewed numerical data or data with \textbf{outliers} (more robust than mean)[cite: 168, 170].
+    \end{itemize}
+    [cite_start]\item \textbf{Mode Imputation:} Replacing missing values with the \textbf{most frequently occurring value} (mode)[cite: 161, 173].
+    \begin{itemize}
+        [cite_start]\item \textbf{Best for:} \textbf{Categorical data} or discrete numerical data[cite: 172].
+    \end{itemize}
+\end{itemize}
+
+\subconcept{Advanced Imputation Techniques}
+\begin{itemize}
+    [cite_start]\item \textbf{Random Imputation:} Replacing missing values with a \textbf{randomly selected observed value} from the same variable[cite: 177].
+    \begin{itemize}
+        [cite_start]\item \textbf{Pro:} Preserves the original distribution and variability of the data[cite: 181].
+        [cite_start]\item \textbf{Con:} Can introduce bias if data is \textbf{not missing completely at random (MCAR)}[cite: 184, 185].
+    \end{itemize}
+    [cite_start]\item \textbf{K-Nearest Neighbors (K-NN) Imputation:} Fills in missing data using values from the \textbf{$K$ nearest neighbors} (closest data points)[cite: 192, 196].
+    \begin{itemize}
+        [cite_start]\item \textbf{Method:} Uses the \textbf{average} (for numbers) or \textbf{most common value} (for categories) of the $K$ neighbors[cite: 196].
+        [cite_start]\item \textbf{Pro:} More \textbf{accurate} as it considers the relationship between data points[cite: 198, 200].
+        [cite_start]\item \textbf{Con:} Slow for large datasets; sensitive to high-dimensional data and outliers[cite: 201, 202, 203].
+    \end{itemize}
+    [cite_start]\item \textbf{Hot Deck Imputation:} Copies values from a \textbf{similar complete data point (donor)} within the same dataset[cite: 208, 212].
+    \begin{itemize}
+        [cite_start]\item \textbf{Pro:} Values are relevant and consistent as they come from similar cases[cite: 214].
+        [cite_start]\item \textbf{Con:} Risk of bias if similar records aren't well-matched[cite: 217].
+    \end{itemize}
+\end{itemize}
+
+---
+
+\concept{Outlier Management $\faExclamationTriangle$}
+\begin{itemize}
+    [cite_start]\item \textbf{Definition:} Data points that \textbf{differ significantly} from others, often due to measurement errors, data entry mistakes, or genuine rare events[cite: 221].
+    [cite_start]\item \textbf{Impact:} Can heavily \textbf{skew machine learning training}, statistical measures (like mean/variance), and significantly affect models like Linear Regression[cite: 223, 230].
+\end{itemize}
+
+\subconcept{Outlier Detection Techniques}
+\begin{itemize}
+    [cite_start]\item \textbf{Box Plot:} Visual method; outliers are points lying beyond the whiskers[cite: 232].
+    [cite_start]\item \textbf{Z-Score:} Measures how many \textbf{standard deviations ($\sigma$)} a data point is from the \textbf{mean ($\mu$)}[cite: 234, 240].
+    \begin{itemize}
+        \item \textbf{Criteria:} Typically, a data point is an outlier if $|Z| > [cite_start]\mathbf{3}$ ($\pm 3$ standard deviations)[cite: 235, 242].
+        \keyformula{Z = \frac{x_i - \mu}{\sigma}}
+        [cite_start]\item \textbf{Example:} A student height of $200\text{ cm}$ with $\mu=170\text{ cm}$ and $\sigma=10\text{ cm}$ gives $Z = \frac{200-170}{10} = \mathbf{3.0}$, classifying it as an outlier[cite: 249, 250].
+    \end{itemize}
+    [cite_start]\item \textbf{Interquartile Range (IQR):} Measures the spread of the middle 50\% of data; highly robust to outliers[cite: 251].
+    \begin{itemize}
+        [cite_start]\item \textbf{Calculation:} $IQR = Q3 - Q1$[cite: 251].
+        [cite_start]\item \textbf{Criteria:} Outliers are any points below the \textbf{Lower Bound} or above the \textbf{Upper Bound}[cite: 251].
+        \keyformula{\text{Lower Bound} = Q1 - 1.5 \cdot IQR}
+        \keyformula{\text{Upper Bound} = Q3 + 1.5 \cdot IQR}
+    \end{itemize}
+\end{itemize}
+
+\subconcept{Outlier Management Methods}
+\begin{itemize}
+    [cite_start]\item \textbf{Removal:} Deleting the data points if they are due to errors and won't introduce bias[cite: 224].
+    [cite_start]\item \textbf{Transformation:} Applying mathematical functions (e.g., $\log$, square root) to reduce the effect of extreme values[cite: 226].
+    [cite_start]\item \textbf{Capping (Winsorizing):} Replacing outliers with a defined percentile value (e.g., replacing all values above $99^{th}$ percentile with the $99^{th}$ percentile value)[cite: 227].
+    [cite_start]\item \textbf{Imputation:} Replacing outliers with a central value like the mean or median (if believed to be erroneous data points)[cite: 228].
+\end{itemize}
+
+---
+
+\concept{Feature Encoding $\faBarcode$}
+\subconcept{One-Hot Encoding (OHE)}
+\begin{itemize}
+    [cite_start]\item \textbf{Definition:} Technique to represent \textbf{categorical variables as numerical binary columns} (0s and 1s)[cite: 254].
+    \item \textbf{How It Works:} Creates a new binary column for each unique category. [cite_start]A '1' is placed in the column corresponding to the observation's category, and '0's elsewhere[cite: 255, 257].
+    [cite_start]\item \textbf{When to Use:} Essential for algorithms that cannot handle categorical variables directly (e.g., Linear Regression, SVM, KNN)[cite: 258, 261].
+    [cite_start]\item \textbf{Pros:} Eliminates the problem of \textbf{ordinality} (assuming an order that doesn't exist, e.g., in colours)[cite: 263].
+    \item \textbf{Cons:}
+    \begin{itemize}
+        [cite_start]\item \textbf{Increased Dimensionality:} Creates one new column per category, increasing feature space[cite: 264].
+        [cite_start]\item \textbf{Sparse Data:} Leads to many 0s in the dataset[cite: 266].
+        [cite_start]\item \textbf{Overfitting Risk:} Especially with many categories and small sample size[cite: 267].
+    \end{itemize}
+\end{itemize}
+
+\subconcept{Example: OHE}
+\textbf{Original Data:}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Fruit} & \textbf{Price} \\ \hline
+apple & 5 \\ \hline
+mango & 10 \\ \hline
+orange & 20 \\ \hline
+\end{tabular}
+\end{center}
+\textbf{One-Hot Encoded Data (Numerical Format for ML):}
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{apple} & \textbf{mango} & \textbf{orange} & \textbf{Price} \\ \hline
+1 & 0 & 0 & 5 \\ \hline
+0 & 1 & 0 & 10 \\ \hline
+0 & 0 & 1 & 20 \\ \hline
+\end{tabular}
+\end{center}
+
+\newpage
+
+% --------------------------------------------------------------------------------
+% SECTION 5: MODEL ERRORS & PERFORMANCE (Page 27-33)
+% --------------------------------------------------------------------------------
+
+\section{Model Errors \& Performance: Understanding Generalization}
+\label{sec:model_errors}
+\setcounter{section}{5}
+
+\concept{Overfitting $\faFrown$}
+\begin{itemize}
+    [cite_start]\item \textbf{Definition:} Occurs when a model performs \textbf{very well on training data} but has \textbf{poor performance with test data} (unseen data)[cite: 614, 615].
+    [cite_start]\item \textbf{Symptom:} The model learns the \textbf{noise and details} (random fluctuations) in the training data, essentially \textbf{memorizing} it[cite: 615, 626].
+    \item \textbf{Causes:}
+    \begin{itemize}
+        [cite_start]\item \textbf{Model is too Complex} (e.g., Decision Tree with too many splits, Neural Network with too many layers)[cite: 617, 626].
+        [cite_start]\item \textbf{Low Bias and High Variance}[cite: 616].
+        [cite_start]\item Insufficient training data size; noisy training data[cite: 617].
+    \end{itemize}
+    \item \textbf{Tackling Overfitting:}
+    \begin{itemize}
+        [cite_start]\item Use \textbf{Cross-Validation} (e.g., K-fold)[cite: 617].
+        [cite_start]\item Apply \textbf{Regularization} techniques (Lasso, Ridge)[cite: 617].
+        [cite_start]\item Use \textbf{Ensembling} techniques (e.g., Random Forest/Bagging)[cite: 617].
+        [cite_start]\item \textbf{Pruning} a Decision Tree (reducing layers)[cite: 406].
+        [cite_start]\item \textbf{Early Stopping} during training[cite: 642].
+    \end{itemize}
+\end{itemize}
+
+---
+
+\concept{Underfitting $\faMeh$}
+\begin{itemize}
+    [cite_start]\item \textbf{Definition:} Occurs when a model \textbf{hasn't learned the patterns} in the training data well and is consequently unable to generalize to new data[cite: 618, 619].
+    [cite_start]\item \textbf{Symptom:} \textbf{Poor performance} on \textbf{both} training data and new data[cite: 619]. [cite_start]The model is too simple to capture the underlying relationship[cite: 624].
+    \item \textbf{Causes:}
+    \begin{itemize}
+        [cite_start]\item \textbf{Model is too Simple} (e.g., Linear Regression applied to non-linear data)[cite: 621, 624].
+        [cite_start]\item \textbf{High Bias and Low Variance}[cite: 620].
+        [cite_start]\item Insufficient features in the dataset; too short a training duration[cite: 621].
+    \end{itemize}
+    \item \textbf{Tackling Underfitting:}
+    \begin{itemize}
+        [cite_start]\item \textbf{Increase model complexity} (e.g., move from Linear to Polynomial Regression)[cite: 621].
+        [cite_start]\item \textbf{Increase the number of features} or perform better feature engineering[cite: 621].
+        [cite_start]\item \textbf{Reduce noise} in the data[cite: 621].
+        [cite_start]\item \textbf{Increase the duration} of training[cite: 621].
+    \end{itemize}
+\end{itemize}
+
+---
+
+\concept{Bias vs. Variance $\faBalanceScaleRight$}
+\subconcept{Bias}
+\begin{itemize}
+    [cite_start]\item \textbf{Definition:} Error caused by a model's \textbf{inability to capture the underlying pattern} (systematic error)[cite: 622].
+    [cite_start]\item \textbf{High Bias Models:} Oversimplified; miss relevant relationships; result in \textbf{underfitting}[cite: 623, 624].
+    [cite_start]\item \textbf{Example:} Simple Linear Regression on complex, non-linear data[cite: 624].
+\end{itemize}
+
+\subconcept{Variance}
+\begin{itemize}
+    [cite_start]\item \textbf{Definition:} Error caused by a model's \textbf{sensitivity to small fluctuations} in the training data[cite: 625].
+    [cite_start]\item \textbf{High Variance Models:} Overly complex; capture noise; produce highly variable predictions; result in \textbf{overfitting}[cite: 626].
+    \item \textbf{Example:} Deep Neural Networks with too many layers; [cite_start]Decision Trees with too many splits[cite: 626].
+\end{itemize}
+
+\subconcept{Bias-Variance Tradeoff}
+\begin{itemize}
+    [cite_start]\item \textbf{Core Idea:} It's necessary to find a balance or \textbf{sweet spot} between the two errors[cite: 627, 628].
+    \item \textbf{The Tradeoff:}
+    \begin{itemize}
+        [cite_start]\item Decreasing \textbf{Bias} (making the model more complex) will generally \textbf{increase Variance}[cite: 630].
+        [cite_start]\item Decreasing \textbf{Variance} (making the model simpler) will generally \textbf{increase Bias}[cite: 629].
+    \end{itemize}
+\end{itemize}
+
+---
+
+\concept{Regularization $\faRuler}$}
+\begin{itemize}
+    [cite_start]\item \textbf{Definition:} A technique to \textbf{prevent overfitting} by adding a \textbf{penalty term} (extra information) to the model's loss function[cite: 631, 634].
+    [cite_start]\item \textbf{Mechanism:} \textbf{Reduces the magnitude of feature coefficients} towards zero, controlling model complexity without removing features (except L1)[cite: 632, 633].
+    [cite_start]\item \textbf{Role:} Improves model \textbf{generalization} and helps stabilize models dealing with multicollinearity[cite: 634, 644, 647].
+\end{itemize}
+
+\subconcept{Types of Regularization}
+\begin{itemize}
+    \item \textbf{L1 Regularization (Lasso):}
+    \begin{itemize}
+        [cite_start]\item \textbf{Penalty:} Adds the \textbf{absolute value} of coefficients[cite: 637].
+        [cite_start]\item \textbf{Effect:} Can \textbf{shrink some coefficients completely to zero}[cite: 637].
+        [cite_start]\item \textbf{Key Benefit:} Performs \textbf{automatic feature selection}[cite: 638, 646].
+    \end{itemize}
+    \item \textbf{L2 Regularization (Ridge):}
+    \begin{itemize}
+        [cite_start]\item \textbf{Penalty:} Adds the \textbf{square} of the coefficients[cite: 639].
+        [cite_start]\item \textbf{Effect:} Reduces all coefficients \textbf{uniformly} but \textbf{does not set any to zero}[cite: 640].
+        [cite_start]\item \textbf{Key Benefit:} Increases model stability, especially with highly correlated features[cite: 647].
+    \end{itemize}
+    \item \textbf{Elastic Net:}
+    \begin{itemize}
+        [cite_start]\item \textbf{Penalty:} Combines both \textbf{L1 and L2} regularization[cite: 641].
+        [cite_start]\item \textbf{Benefit:} Balances the feature selection of L1 with the stability of L2[cite: 641].
+    \end{itemize}
+    [cite_start]\item \textbf{Dropout (Neural Networks):} Randomly ignores (drops out) a subset of neurons during training, forcing the network to learn more robust features[cite: 642].
+    [cite_start]\item \textbf{Early Stopping:} Stops training when validation set performance starts to degrade, preventing the model from learning the noise/details of the training set[cite: 642].
+\end{itemize}
+
+\keyformula{\text{Lasso Cost} = \text{Loss} + \lambda \sum_{i=1}^{n} |\theta_i|}
+\keyformula{\text{Ridge Cost} = \text{Loss} + \lambda \sum_{i=1}^{n} \theta_i^2}
+
+\newpage
+
+% --------------------------------------------------------------------------------
+% SECTION 6: ENSEMBLE LEARNING (Page 34-39)
+% --------------------------------------------------------------------------------
+
+\section{Ensemble Learning: Combining Models}
+\label{sec:ensemble_learning}
+\setcounter{section}{6}
+
+\concept{Ensemble Learning Overview $\faLayerGroup$}
+\begin{itemize}
+    [cite_start]\item \textbf{Definition:} Combines \textbf{multiple individual models} (base learners) to obtain a single, more robust prediction model[cite: 655].
+    [cite_start]\item \textbf{Goal:} To \textbf{improve overall performance} (accuracy) and \textbf{reduce bias and variance} compared to a single model[cite: 656].
+    [cite_start]\item \textbf{Reliability:} Enhances robustness to errors and uncertainties[cite: 657].
+\end{itemize}
+
+---
+
+\concept{Bagging (Bootstrap Aggregating) $\faClipboardList$}
+\begin{itemize}
+    [cite_start]\item \textbf{Concept:} Involves training multiple versions of a model on \textbf{different random subsets} of the training data[cite: 660].
+    [cite_start]\item \textbf{Data Sampling:} Uses \textbf{Bootstrap Sampling} - creating subsets by sampling \textbf{with replacement}[cite: 661].
+    \item \textbf{Mechanism:}
+    \begin{itemize}
+        [cite_start]\item Each model is trained \textbf{independently} on its subset[cite: 662].
+        [cite_start]\item Predictions are aggregated by \textbf{averaging} (regression) or \textbf{majority vote} (classification)[cite: 663].
+    \end{itemize}
+    [cite_start]\item \textbf{Goal:} Primarily \textbf{reduces variance} and \textbf{decreases the risk of overfitting}[cite: 664, 665].
+    \item \textbf{Key Example: Random Forest}
+    \begin{itemize}
+        [cite_start]\item Creates an ensemble of multiple Decision Trees[cite: 665].
+        [cite_start]\item The final prediction is based on the majority vote of the trees (classification) or the average of their predictions (regression)[cite: 443, 444, 445].
+    \end{itemize}
+\end{itemize}
+
+---
+
+\concept{Boosting $\faChartLineUp$}
+\begin{itemize}
+    [cite_start]\item \textbf{Concept:} Trains models \textbf{sequentially}, where each subsequent model focuses on \textbf{correcting the errors} made by the previous models[cite: 666, 667].
+    \item \textbf{Mechanism:}
+    \begin{itemize}
+        [cite_start]\item Models are trained to emphasize instances \textbf{misclassified} by their predecessors[cite: 669].
+        [cite_start]\item Predictions are combined by \textbf{weighting} them according to their individual accuracy[cite: 670].
+    \end{itemize}
+    [cite_start]\item \textbf{Goal:} Primarily \textbf{minimizes bias} and produces highly accurate models (often outperforming bagging)[cite: 670, 671].
+    [cite_start]\item \textbf{Consideration:} Can be prone to overfitting if not properly tuned[cite: 671].
+    \item \textbf{Examples:} AdaBoost, Gradient Boosting, XGBoost, LightGBM.
+\end{itemize}
+
+\subconcept{AdaBoost (Adaptive Boosting)}
+\begin{itemize}
+    [cite_start]\item \textbf{Nature:} Combines multiple \textbf{weak/base learners} (e.g., decision stumps) into a single strong learner[cite: 674, 675].
+    \item \textbf{Working:} Iteratively trains weak learners, with each new learner focusing on the instances that were \textbf{misclassified} by the previous one. [cite_start]This is achieved by \textbf{updating the weights} of the instances[cite: 676, 677, 681].
+    [cite_start]\item \textbf{Advantage:} Robust to outliers (as weights are updated based on error) and can handle imbalanced datasets[cite: 684, 685, 686].
+    [cite_start]\item \textbf{Disadvantage:} Computationally expensive; can suffer from overfitting if the number of iterations is too large[cite: 688].
+\end{itemize}
+
+---
+
+\concept{Stacking (Stacked Generalization) $\faStackOverflow$}
+\begin{itemize}
+    [cite_start]\item \textbf{Concept:} Combines predictions from multiple \textbf{base models} (Level 0 learners) using a \textbf{meta-learner} (Level 1 learner) to make the final prediction[cite: 689].
+    \item \textbf{Mechanism:}
+    \begin{itemize}
+        [cite_start]\item \textbf{Base Models:} Trained independently (e.g., Decision Trees, SVMs, Logistic Regression)[cite: 691].
+        [cite_start]\item \textbf{Meta-Learner:} Takes the \textbf{predictions} of the base models as its \textbf{input features} to learn how to optimally combine them[cite: 690].
+    \end{itemize}
+    [cite_start]\item \textbf{Goal:} Leverages the strengths of \textbf{diverse models} for better overall performance, often outperforming individual models[cite: 692, 693].
+\end{itemize}
+
+---
+
+\concept{Voting $\faVoteYea$}
+\begin{itemize}
+    [cite_start]\item \textbf{Concept:} A simpler ensemble method that combines outputs of multiple models via majority voting or averaging[cite: 694].
+    \item \textbf{Types (Classification):}
+    \begin{itemize}
+        [cite_start]\item \textbf{Hard Voting:} Final prediction is the \textbf{majority class label} chosen by most base models[cite: 696].
+        [cite_start]\item \textbf{Soft Voting:} Averages the \textbf{predicted probabilities} for each class from all base models; the class with the highest average probability wins[cite: 697].
+    \end{itemize}
+\end{itemize}
+
+\newpage
+
+% --------------------------------------------------------------------------------
+% SECTION 7: APPLICATIONS & CASE STUDIES (Page 40-45)
+% --------------------------------------------------------------------------------
+
+\section{Applications \& Case Studies: ML in the Real World}
+\label{sec:applications}
+\setcounter{section}{7}
+
+\concept{Credit Card Fraud Detection $\faCreditCard$}
+\begin{itemize}
+    [cite_start]\item \textbf{ML Approach:} \textbf{Classification} or \textbf{Anomaly Detection} (Unsupervised)[cite: 512].
+    \item \textbf{Algorithms:} SVM, Logistic Regression, Random Forest, Naïve Bayes.
+    \item \textbf{Features:} Transaction amount, time of day, location, purchase category, and previous spending habits.
+    \item \textbf{Case Study (SVM):} SVM is often used due to its ability to define an optimal boundary (\textbf{hyperplane}) between legitimate and fraudulent transactions. The \textbf{soft margin} technique is crucial here because outliers (real but unusual purchases) and non-linearly separable data are common. [cite_start]SVM is robust to these outliers, defining the most distinct separation[cite: 531, 516].
+\end{itemize}
+
+---
+
+\concept{Spam Filtering $\faEnvelopeOpen$}
+\begin{itemize}
+    [cite_start]\item \textbf{ML Approach:} \textbf{Binary Classification} (Spam or Not Spam)[cite: 467].
+    \item \textbf{Algorithms:} Naïve Bayes (Multinomial/Bernoulli), Logistic Regression, SVM.
+    \item \textbf{Case Study (Naïve Bayes):}
+    \begin{itemize}
+        [cite_start]\item \textbf{Mechanism:} Naïve Bayes calculates the probability of an email being spam based on the \textbf{frequency of words} it contains[cite: 502]. It assumes \textbf{word independence}.
+        [cite_start]\item \textbf{Features:} Frequency or presence/absence of words like "free," "buy now," or suspicious symbols[cite: 500]. [cite_start]Multinomial Naïve Bayes is ideal as it handles \textbf{word counts}[cite: 474].
+        \item \textbf{Challenges/Handling:}
+        \begin{itemize}
+            \item \textbf{Zero Frequency Problem:} If a word in the test set never appeared in the training set (Spam/Not Spam), the calculated probability will be zero, halting the calculation.
+            [cite_start]\item \textbf{Solution:} Apply \textbf{Laplace Smoothing} to handle unseen or rare words by adding a small constant to all word counts[cite: 508].
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+---
+
+\concept{Medical Diagnosis $\faHeartbeat$}
+\begin{itemize}
+    [cite_start]\item \textbf{ML Approach:} \textbf{Classification} (Disease/No Disease, Benign/Malignant)[cite: 467].
+    \item \textbf{Algorithms:} Naïve Bayes, SVM, Decision Trees, Logistic Regression.
+    \item \textbf{Case Study (Bayes' Theorem in Testing):} (See Core Concepts - Solved Numerical Example)
+    \begin{itemize}
+        \item \textbf{Core Challenge:} Bayesian methods are critical to calculate the \textbf{Posterior Probability} of actually having a disease given a positive test result ($P(D|Pos)$).
+        [cite_start]\item \textbf{Why it Matters:} As shown in the calculation, even with a high True Positive rate ($P(Pos|D)$), a low \textbf{Prior Probability} of the disease in the general population can result in a surprising low posterior probability, highlighting the importance of the \textbf{Base Rate}[cite: 79, 83].
+    \end{itemize}
+\end{itemize}
+
+---
+
+\concept{Customer Segmentation $\faUserCircle$}
+\begin{itemize}
+    [cite_start]\item \textbf{ML Approach:} \textbf{Clustering} (Unsupervised Learning)[cite: 127].
+    \item \textbf{Algorithms:} K-Means, Hierarchical Clustering.
+    [cite_start]\item \textbf{Goal:} To group customers with similar characteristics or behaviors (e.g., age, income, buying habits) to target them with personalized marketing campaigns[cite: 127, 548].
+    \item \textbf{Case Study (K-Means - See Unsupervised Learning):}
+    \begin{itemize}
+        \item \textbf{Mechanism:} K-Means is used to find $K$ distinct groups (clusters) in the customer data (e.g., find 3 clusters of "High-Value," "Medium-Value," and "Low-Value" customers).
+        [cite_start]\item \textbf{Key Step:} The marketer must determine the optimal number of clusters, $K$, before running the algorithm (a key requirement for K-Means)[cite: 541].
+    \end{itemize}
+\end{itemize}
+
+---
+
+\concept{Weather Prediction $\faCloudRain$}
+\begin{itemize}
+    [cite_start]\item \textbf{ML Approach:} \textbf{Regression} (e.g., predicting temperature) or \textbf{Classification} (e.g., predicting rain/no-rain)[cite: 467].
+    \item \textbf{Algorithms:} Time Series Models (beyond scope, but mention), Naïve Bayes, Logistic Regression.
+    [cite_start]\item \textbf{Case Study (Naïve Bayes):} Predicting rain/no-rain based on features like Temperature, Humidity, and Wind[cite: 466].
+    \begin{itemize}
+        \item \textbf{Mechanism:} Uses likelihood tables (conditional probabilities) of each feature (e.g., $P(\text{Rain}|\text{High Humidity})$) and combines them with the prior probability $P(\text{Rain})$ to find the class with the highest overall probability for the next day's forecast.
+        \item \textbf{Example (Bayes' in Weather):} (See Core Concepts - Bayes' Solved Example)
+        \keyformula{P(\text{Rain}|\text{Cloud}) = \frac{P(\text{Cloud}|\text{Rain}) \cdot P(\text{Rain})}{P(\text{Cloud})}}
+    \end{itemize}
+\end{itemize}
+
+\newpage
+
+% --------------------------------------------------------------------------------
+% END OF DOCUMENT
+% --------------------------------------------------------------------------------
+
+\begin{center}
+    \vspace*{1cm}
+    \Huge \textbf{END OF HANDBOOK} \\
+    \vspace{0.5cm}
+    \Large \textit{Success in your Machine Learning Exam!}
+\end{center}
+
+\end{document}

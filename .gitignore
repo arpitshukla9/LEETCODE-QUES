@@ -1,0 +1,19 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+
+# IDE files
+*.iml
+.idea/
+.vscode/
+*.swp
+
+# Build directories
+/bin/
+/out/
+/target/
